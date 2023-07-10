@@ -7,15 +7,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "reading")
 public class ReadingModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "readingId")
-    private int readingId;
+    @Column(name="readingId", nullable = false, unique = true)
+    private int ReadingId;
     private float Distance;
-    private float Time;
+    private Timestamp Time;
 
     public ReadingModel() {
 //        this.authority = "USER";
@@ -23,11 +25,11 @@ public class ReadingModel {
     }
 
     public int getReadingId() {
-        return readingId;
+        return ReadingId;
     }
 
     public void setReadingId(int readingId) {
-        this.readingId = readingId;
+        this.ReadingId = readingId;
     }
 
     public float getDistance() {
@@ -38,11 +40,11 @@ public class ReadingModel {
         Distance = distance;
     }
 
-    public float getTime() {
+    public Timestamp getTime() {
         return Time;
     }
 
-    public void setTime(float time) {
+    public void setTime(Timestamp time) {
         Time = time;
     }
 }
