@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 public class ReadingModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="readingId", nullable = false, unique = true)
-    private int ReadingId;
+    @Column(name="reading_Id", nullable = false)
+    private int readingId;
     private float Distance;
     private Timestamp Time;
 
@@ -25,11 +25,11 @@ public class ReadingModel {
     }
 
     public int getReadingId() {
-        return ReadingId;
+        return readingId;
     }
 
-    public void setReadingId(int readingId) {
-        this.ReadingId = readingId;
+    public void setReadingId(int reading_Id) {
+        this.readingId = reading_Id;
     }
 
     public float getDistance() {

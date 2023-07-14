@@ -20,4 +20,10 @@ public class ReadingService {
     {
         return readingRepository.findAll();
     }
+
+    public ReadingModel saveReading(ReadingModel readingModel)
+    {
+        readingRepository.save(readingModel);
+        return readingModel;
+    }
 }

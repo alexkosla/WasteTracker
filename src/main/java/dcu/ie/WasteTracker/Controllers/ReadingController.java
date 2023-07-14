@@ -1,4 +1,5 @@
 package dcu.ie.WasteTracker.Controllers;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -6,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 //import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import dcu.ie.WasteTracker.Models.ReadingModel;
 import dcu.ie.WasteTracker.Services.ReadingService;
@@ -25,9 +24,16 @@ public class ReadingController {
         this.readingService = readingService;
     }
 
-    @GetMapping("/getReadings")
+    @GetMapping("/getAll")
     public ResponseEntity<List<ReadingModel>> getAllReadings() {
         System.out.println("--- Getting readings ---");
         return ResponseEntity.ok(readingService.getAllReadings());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ReadingModel> saveReading(@RequestBody ReadingModel readingModel) throws IOException
+    {
+        System.out.println("--- Saving reading ---");
+        return ResponseEntity.ok(readingService.saveReading(readingModel));
     }
 }
