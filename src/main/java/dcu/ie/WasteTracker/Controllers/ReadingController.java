@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import dcu.ie.WasteTracker.Entities.ReadingEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,9 +32,9 @@ public class ReadingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ReadingModel> saveReading(@RequestBody ReadingModel readingModel) throws IOException
+    public ResponseEntity<ReadingModel> saveReading(@RequestBody ReadingEntity readingEntity) throws IOException
     {
         System.out.println("--- Saving reading ---");
-        return ResponseEntity.ok(readingService.saveReading(readingModel));
+        return ResponseEntity.ok(readingService.saveReading(readingEntity));
     }
 }
