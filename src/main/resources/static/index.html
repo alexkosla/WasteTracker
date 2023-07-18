@@ -1,0 +1,69 @@
+<html>
+  <!-- html specifies the text within the brackets are html code -->
+  <head>
+    <!-- there is a separate css file for all the map pages -->
+      <link rel="stylesheet" type="text/css"
+      href="stylesheets/index.css">
+      <link rel="stylesheet" type="text/css"
+      href="stylesheets/sidebar.css">
+      <!-- separate file for the javascript code and i'll also need to reference some kind of jquery -->
+      <script src="js/sidebar.js"></script> 
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  </head>
+  
+  <!-- this nav contains a list of pages to link to at the top, it's styled by css -->
+  <nav>
+      <ul>
+        <!-- the active class will make the background behind the text green -->
+        <!-- I also aligned "My Stats" on the right using float:right -->
+          <div id="main">
+            <!-- hamburger menu on the left, uses an icon that when clicked, tells js to open the sidebar -->
+            <li id="indexmenu" onclick="openNav()"><a>&#9776;</a></li>
+            <li><a class="active" href="index.html">mapstats.tf</a></li>
+            <li><a class="active" href="index.html">Maps</a></li>
+          </div>
+          <li style="float:right"><a href="sniper.html">My Stats</a></li>      
+        </ul>
+  </nav> 
+
+  <!-- a sidebar that is defined by the sidebar class in css -->
+  <div id="mySidebar" class="sidebar">
+    <!-- a close button that triggers the closeNav function -->
+    <a class="closebtn" onclick="closeNav()">&times;</a>
+    <ul>
+        <!-- links to the two form pages -->
+        <li><a href="new-user.html">Add new user</a></li>
+        <li><a href="new-stats.html">Submit stats</a></li>
+    </ul>
+  </div>
+    <body>
+      <!-- an image gallery using the gallery class -->
+        <div class="gallery" id="upward">
+          <div class="desc"><h2>Upward</h2></div>
+        </div>
+        
+        <div class="gallery" id="swiftwater">
+          <div class="desc"><h2>Swiftwater</h2></div>
+        </div>
+        
+        <div class="gallery">
+          <div class="desc"><h2>Vigil</h2></div>
+        </div>
+        
+        <div class="gallery">
+          <div class="desc"><h2>Steel</h2></div>
+        </div>
+    
+        <div class="gallery">
+          <div class="desc"><h2>Product</h2></div>
+        </div>
+
+        <div class="gallery">
+          <div class="desc"><h2>Ashville</h2></div>
+        </div>
+
+        <div class="gallery">
+          <div class="desc"><h2>Proot</h2></div>
+        </div>       
+      </body>
+</html>

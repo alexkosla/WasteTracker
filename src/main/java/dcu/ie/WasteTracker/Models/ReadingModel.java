@@ -18,7 +18,6 @@ import java.util.UUID;
 public class ReadingModel {
     @Id
     @GeneratedValue
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name="reading_Id", nullable = false)
     private UUID readingId;

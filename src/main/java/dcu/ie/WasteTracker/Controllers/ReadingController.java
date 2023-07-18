@@ -32,6 +32,7 @@ public class ReadingController {
     }
 
     @PostMapping("/create")
+    @CrossOrigin(origins ="*")
     public ResponseEntity<ReadingModel> saveReading(@RequestBody ReadingEntity readingEntity) throws IOException
     {
         System.out.println("--- Saving reading ---");

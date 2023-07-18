@@ -1,0 +1,85 @@
+ul {
+    /* list-style-type none for no bulletpoints */
+    list-style-type: none;
+    /* 0 margin or padding to put the nav at the top left */
+    margin: 0px;
+    padding: 0px;
+    /* cut off text if it doesn't fit */
+    overflow: hidden;
+  }
+  
+  li {
+    /* align list items on the left */
+    float: left;
+  }
+  
+  li a {
+    /* for list text, use the specific font */
+    font-family: Arial, Helvetica, sans-serif;
+    /* the block display looks nicer than default */
+    display: block;
+    /* offwhite font color */
+    color: whitesmoke;
+    /* centered text */
+    text-align: center;
+    /* larger font size */
+    font-size: 24px;
+    /* adds padding for nicer display */
+    padding: 14px 16px;
+    /* removes underlines */
+    text-decoration: none;
+    height: 36px;
+  }
+  
+  /* Change the link color to seagreen on hover */
+  li a:hover {
+    background-color: seagreen;
+  }
+  
+  .active {
+    /* if the page is currently in use, use a special color */
+    background-color: #04AA6D;
+  } 
+  
+  div.gallery {
+    /* use rounded edges for the map image boxes */
+    border-radius: 30px;
+    /* have a margin of 15 pixels between boxes */
+    margin: 15px;
+    /* add a green border for all of the boxes */
+    border: 3px solid yellowgreen;
+    /* align the boxes to the left */
+    float: left;
+    /* have the boxes each take up 20% of the screen width */
+    width: 20%
+  }
+  
+  div.gallery:hover {
+    /* if the cursor is over the box, change the border color */
+    border: 3px solid seagreen;
+  }
+  
+  div.gallery img {
+    /* round the edges of the image in the box */
+    border-radius: 25px;
+    /* have the image take up the full width of the box */
+    width: 100%;
+    max-width: 100%;
+    /* maintain the ratio of the image */
+    height: auto;
+  }
+  
+  div.desc {
+    /* center the names of the maps in the boxes */
+    text-align: center;
+  }
+  
+  /* sets the body (which contains the gallery classes) to have the right font, 
+    font color, and background color */
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    color: whitesmoke;
+    background-color: #333;
+    margin: 0px;
+    padding: 0px;
+  }
