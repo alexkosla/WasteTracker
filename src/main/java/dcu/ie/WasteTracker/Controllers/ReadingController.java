@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import dcu.ie.WasteTracker.Entities.ReadingEntity;
+import dcu.ie.WasteTracker.Entities.ReadingEventEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,12 @@ public class ReadingController {
     public ResponseEntity<List<ReadingModel>> getAllReadings() {
         System.out.println("--- Getting readings ---");
         return ResponseEntity.ok(readingService.getAllReadings());
+    }
+
+    @GetMapping("/getDaily")
+    public ResponseEntity<List<ReadingEventEntity>> getDaily() {
+        System.out.println("--- Getting daily readings ---");
+        return ResponseEntity.ok(readingService.getDaily());
     }
 
     @PostMapping("/create")
