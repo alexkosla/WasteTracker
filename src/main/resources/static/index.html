@@ -9,6 +9,36 @@
       <!-- separate file for the javascript code and i'll also need to reference some kind of jquery -->
       <script src="js/sidebar.js"></script> 
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+      <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth'
+                });
+                console.log("about to fetch readings");
+                // const url = "http://localhost:8080/readings/getAll";
+                // fetch(url, {
+                //     method: "GET",
+                //     headers: {"Content-type": "application/json"}
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     console.log(data);
+                //     calendar.addEvent(data);
+                // })
+                // .catch((error) => {
+                //     window.alert(error);
+                // });
+
+                calendar.addEvent({title: '50%', start: '2023-07-17', end: '2023-07-17'});
+                calendar.addEvent({title: '80%', start: '2023-07-18', end: '2023-07-18'});
+
+                calendar.render();
+            });
+
+        </script>
   </head>
   
   <!-- this nav contains a list of pages to link to at the top, it's styled by css -->
@@ -37,6 +67,7 @@
     </ul>
   </div>
     <body>
+        <div id='calendar'></div>
       <!-- an image gallery using the gallery class -->
         <div class="gallery" id="upward">
           <div class="desc"><h2>Upward</h2></div>
