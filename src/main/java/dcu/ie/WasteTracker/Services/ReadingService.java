@@ -1,5 +1,7 @@
 package dcu.ie.WasteTracker.Services;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,20 +41,22 @@ public class ReadingService {
          */
         Comparator<ReadingModel> readingModelComparator = Comparator.comparing(d -> d.getTime(), Timestamp::compareTo);
 
-        List<Timestamp> reading_dates = readings.stream().map(r -> r.getTime()).distinct().toList();
+        List<LocalDate> reading_dates = readings.stream().map(r -> r.getTime().toLocalDateTime().toLocalDate()).sorted(LocalDate::compareTo).distinct().toList();
         var sorted_readings = readings.stream().sorted(readingModelComparator).collect(Collectors.toList());
 
         List<ReadingModel> filteredReadingModels = new ArrayList<ReadingModel>();
         List<ReadingEventEntity> readingEventEntities = new ArrayList<ReadingEventEntity>();
-        for (Timestamp day : reading_dates)
+        for (LocalDate day : reading_dates)
         {
-            Date date = new Date(day.getTime());
-
             // CODE DOES NOT WORK HERE, YOU NEED A 'DATE' ISH TYPE THAT HAS A .getDate() (as in calendar date) method
             // it's checking for a time that exactly matches the date to the milliseconds which it won't be able to find
-            var reading = sorted_readings.stream().filter(sr -> new Date(sr.getTime().getTime()) == date).max(readingModelComparator).get();
+            var reading = sorted_readings.stream()
+                    .filter(sr -> sr.getTime().toLocalDateTime().toLocalDate().toEpochDay() == day.toEpochDay())
+                    .sorted(readingModelComparator)
+                            .collect(Collectors.toList());
 
-            filteredReadingModels.add(reading);
+            // only add the last reading from each day
+            filteredReadingModels.add(reading.get(reading.size() - 1));
         }
 
         for (ReadingModel readingModel : filteredReadingModels)
