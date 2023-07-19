@@ -11,6 +11,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -22,14 +23,14 @@ public class ReadingModel {
     @Column(name="reading_Id", nullable = false)
     private UUID readingId;
     private float Distance;
-    private Timestamp Time;
+    private LocalDateTime Time;
 
     public ReadingModel()
     {
 
     }
 
-    public ReadingModel(float distance, Timestamp time)
+    public ReadingModel(float distance, LocalDateTime time)
     {
         this.Distance = distance;
         this.Time = time;
@@ -59,11 +60,11 @@ public class ReadingModel {
         Distance = distance;
     }
 
-    public Timestamp getTime() {
+    public LocalDateTime getTime() {
         return Time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(LocalDateTime time) {
         Time = time;
     }
 }

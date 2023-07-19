@@ -1,12 +1,13 @@
 package dcu.ie.WasteTracker.Entities;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class ReadingEntity {
     private float Distance;
-    private Timestamp Time;
+    private LocalDateTime Time;
 
-    public ReadingEntity(float distance, Timestamp time) {
+    public ReadingEntity(float distance, LocalDateTime time) {
         Distance = distance;
         Time = time;
     }
@@ -19,11 +20,11 @@ public class ReadingEntity {
         Distance = distance;
     }
 
-    public Timestamp getTime() {
+    public LocalDateTime getTime() {
         return Time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(LocalDateTime time) {
         Time = time;
     }
 }

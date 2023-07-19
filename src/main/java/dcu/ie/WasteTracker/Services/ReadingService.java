@@ -39,9 +39,9 @@ public class ReadingService {
 	        finalDates.append(readingList.Where(r -> r.getTimeStamp().getDate() == d).SortBy(r ->.getTimestamp()).LastOrDefault());
         }
          */
-        Comparator<ReadingModel> readingModelComparator = Comparator.comparing(d -> d.getTime(), Timestamp::compareTo);
+        Comparator<ReadingModel> readingModelComparator = Comparator.comparing(d -> d.getTime(), LocalDateTime::compareTo);
 
-        List<LocalDate> reading_dates = readings.stream().map(r -> r.getTime().toLocalDateTime().toLocalDate()).sorted(LocalDate::compareTo).distinct().toList();
+        List<LocalDate> reading_dates = readings.stream().map(r -> r.getTime().toLocalDate()).sorted(LocalDate::compareTo).distinct().toList();
         var sorted_readings = readings.stream().sorted(readingModelComparator).collect(Collectors.toList());
 
         List<ReadingModel> filteredReadingModels = new ArrayList<ReadingModel>();
@@ -51,7 +51,7 @@ public class ReadingService {
             // CODE DOES NOT WORK HERE, YOU NEED A 'DATE' ISH TYPE THAT HAS A .getDate() (as in calendar date) method
             // it's checking for a time that exactly matches the date to the milliseconds which it won't be able to find
             var reading = sorted_readings.stream()
-                    .filter(sr -> sr.getTime().toLocalDateTime().toLocalDate().toEpochDay() == day.toEpochDay())
+                    .filter(sr -> sr.getTime().toLocalDate().toEpochDay() == day.toEpochDay())
                     .sorted(readingModelComparator)
                             .collect(Collectors.toList());
 
