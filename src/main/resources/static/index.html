@@ -18,22 +18,25 @@
                     initialView: 'dayGridMonth'
                 });
                 console.log("about to fetch readings");
-                // const url = "http://localhost:8080/readings/getAll";
-                // fetch(url, {
-                //     method: "GET",
-                //     headers: {"Content-type": "application/json"}
-                // })
-                // .then(response => response.json())
-                // .then(data => {
-                //     console.log(data);
-                //     calendar.addEvent(data);
-                // })
-                // .catch((error) => {
-                //     window.alert(error);
-                // });
+                const url = "http://localhost:8080/readings/getDaily";
+                fetch(url, {
+                    method: "GET",
+                    headers: {"Content-type": "application/json"}
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    data.forEach(element => {
+                      calendar.addEvent(element)
+                    });
+                    // calendar.addEvent(data);
+                })
+                .catch((error) => {
+                    window.alert(error);
+                });
 
-                calendar.addEvent({title: '50%', start: '2023-07-17', end: '2023-07-17'});
-                calendar.addEvent({title: '80%', start: '2023-07-18', end: '2023-07-18'});
+                // calendar.addEvent({title: '50%', start: '2023-07-17', end: '2023-07-17'});
+                // calendar.addEvent({title: '80%', start: '2023-07-18', end: '2023-07-18'});
 
                 calendar.render();
             });
