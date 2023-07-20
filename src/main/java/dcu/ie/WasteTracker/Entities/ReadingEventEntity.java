@@ -10,17 +10,17 @@ public class ReadingEventEntity {
     private String color;
 
     public ReadingEventEntity(float distance, LocalDateTime timestamp) {
-//        this.title = title;
         this.start = timestamp.toString();
-        this.end = timestamp.toString();
+        // end is exclusive of start (see event parsing docs for fullcalendar) so it needs to be AFTER start
+        this.end = timestamp.plusMinutes(1).toString();
         // hardcoded bin height of 20cm
         float percent = distanceToPercent(distance, 20f) * 100;
         this.title = String.format("%.0f%%", percent);
 
-        if(percent >= 0.75f)
+        if(percent >= 75)
             this.color = "Red";
-        else if(percent >= 0.5f)
-            this.color = "Yellow";
+        else if(percent >= 50)
+            this.color = "Orange";
         else
             this.color = "Green";
 
