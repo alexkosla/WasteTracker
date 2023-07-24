@@ -13,9 +13,9 @@ public class ReadingEventEntity {
         this.start = timestamp.toString();
         // end is exclusive of start (see event parsing docs for fullcalendar) so it needs to be AFTER start
         this.end = timestamp.plusMinutes(1).toString();
-        // hardcoded bin height of 20cm
-        float percent = distanceToPercent(distance, 20f) * 100;
-        this.title = String.format("%.0f%%", percent);
+        // hardcoded to match the bin and sensor heights of my bin
+        float percent = distanceToPercent(distance, 26.5f, 1.5f) * 100;
+        this.title = String.format("%.1f%%", percent);
 
         if(percent >= 75)
             this.color = "Red";
@@ -26,17 +26,20 @@ public class ReadingEventEntity {
 
     }
 
-    public float distanceToPercent(float distance, float height)
+    public float distanceToPercent(float distance, float height, float sensorHeight)
     {
         // when a bin is 100%
-        float max = height - 3;
-        float spaceLeft = height - distance;
+
+        // according to tests, the bin is 26.5 cm tall
+        // and the sensor is 25cm from the bottom of the bin
+        float max = height - sensorHeight;
         // bin is 20cm tall
         // max is 17cm (amount of total space)
         // distance is 10cm
         float percent = (max - distance) / max;
         if(percent > 1)
             percent = 1;
+
         return percent;
     }
 
