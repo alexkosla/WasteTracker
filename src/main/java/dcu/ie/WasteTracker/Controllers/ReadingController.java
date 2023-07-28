@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import dcu.ie.WasteTracker.Entities.DailyAverageEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEventEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class ReadingController {
     public ResponseEntity<List<ReadingEventEntity>> getDaily() {
         System.out.println("--- Getting daily readings ---");
         return ResponseEntity.ok(readingService.getDaily());
+    }
+
+    @GetMapping("/getDailyChanges")
+    public ResponseEntity<DailyAverageEntity> getDailyChanges() {
+        System.out.println("--- Getting daily changes ---");
+        return ResponseEntity.ok(readingService.getDailyChanges());
     }
 
     @PostMapping("/create")

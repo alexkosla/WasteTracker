@@ -1,11 +1,13 @@
 package dcu.ie.WasteTracker.Services;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import dcu.ie.WasteTracker.Entities.DailyAverageEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEventEntity;
 import org.springframework.stereotype.Service;
@@ -73,5 +75,139 @@ public class ReadingService {
         ReadingModel readingModel = new ReadingModel(readingEntity);
         readingRepository.save(readingModel);
         return readingModel;
+    }
+
+    public DailyAverageEntity getDailyAverages()
+    {
+        List<ReadingModel> allReadings = readingRepository.findAll();
+        DailyAverageEntity dailyAverageEntity = new DailyAverageEntity();
+        for(int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++)
+        {
+            String averagePercent = dayOfWeekAvg(allReadings, dayOfWeek);
+            switch(dayOfWeek)
+            {
+                case(1):
+                    dailyAverageEntity.setMondayAvg(averagePercent);
+                    break;
+                case(2):
+                    dailyAverageEntity.setTuesdayAvg(averagePercent);
+                    break;
+                case(3):
+                    dailyAverageEntity.setWednesdayAvg(averagePercent);
+                    break;
+                case(4):
+                    dailyAverageEntity.setThursdayAvg(averagePercent);
+                    break;
+                case(5):
+                    dailyAverageEntity.setFridayAvg(averagePercent);
+                    break;
+                case(6):
+                    dailyAverageEntity.setSaturdayAvg(averagePercent);
+                    break;
+                case(7):
+                    dailyAverageEntity.setSundayAvg(averagePercent);
+                    break;
+            }
+        }
+        return dailyAverageEntity;
+    }
+
+    public DailyAverageEntity getDailyChanges()
+    {
+        List<ReadingEventEntity> dailyReadings = getDaily();
+        DailyAverageEntity dailyAverageEntity = new DailyAverageEntity();
+
+        // initialize delta variables for changes in fill % for each day of the week
+        float monDelta, tuesDelta, wedDelta, thursDelta, friDelta, satDelta, sunDelta;
+        monDelta = tuesDelta = wedDelta = thursDelta = friDelta = satDelta = sunDelta = 0f;
+
+        // get all of the daily changes for each daily reading
+        for(int readingDay = dailyReadings.size() - 1; readingDay > 0; readingDay--)
+        {
+            float oldPercent = dailyReadings.get(readingDay-1).getPercent();
+            float newPercent = dailyReadings.get(readingDay).getPercent();
+            LocalDateTime newDay = LocalDateTime.parse(dailyReadings.get(readingDay).getStart());
+            LocalDateTime oldDay = LocalDateTime.parse(dailyReadings.get(readingDay-1).getStart());
+            float delta = oldPercent - newPercent;
+
+            // check if bin has been emptied and adjust the delta
+            if (delta <= 0)
+            {
+                // if percent goes from 90% to 5%, it should be a 15% change
+                delta = (100 - oldPercent) + newPercent;
+            }
+
+            // if the two daily readings aren't from adjacent days, then calculate an average change
+            // note that this may not work if the bin has been emptied multiple times
+            if (!(newDay.getDayOfWeek().getValue() - 1 == oldDay.getDayOfWeek().getValue()))
+            {
+                delta = delta / oldDay.getDayOfWeek().compareTo(newDay.getDayOfWeek());
+            }
+
+            switch (newDay.getDayOfWeek().getValue())
+            {
+                case(1):
+                    monDelta =+ delta;
+                    break;
+                case(2):
+                    tuesDelta =+ delta;
+                    break;
+                case(3):
+                    wedDelta =+ delta;
+                    break;
+                case(4):
+                    thursDelta =+ delta;
+                    break;
+                case(5):
+                    friDelta =+ delta;
+                    break;
+                case(6):
+                    satDelta =+ delta;
+                    break;
+                case(7):
+                    sunDelta =+ delta;
+                    break;
+
+            }
+
+        }
+        dailyAverageEntity.setMondayChange(monDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setTuesdayChange(tuesDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setWednesdayChange(wedDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setThursdayChange(thursDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setFridayChange(friDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setSaturdayChange(satDelta / dailyReadings.size() * 100);
+        dailyAverageEntity.setSundayChange(sunDelta / dailyReadings.size() * 100);
+
+        return dailyAverageEntity;
+    }
+
+    public String dayOfWeekAvg(List<ReadingModel> readingModels, int day)
+    {
+        float avgDistance = ((float) readingModels.stream()
+                .filter(reading -> reading.getTime().getDayOfWeek().getValue() == day)
+                .map(reading -> reading.getDistance())
+                .mapToDouble(Float::doubleValue)
+                .average()
+                .orElse(0.0));
+
+        return distanceToPercentString(avgDistance, 26.5f, 1.5f);
+    }
+
+    public String distanceToPercentString(float distance, float height, float sensorHeight)
+    {
+        // when a bin is 100%
+
+        // according to tests, the bin is 26.5 cm tall
+        // and the sensor is 25cm from the bottom of the bin
+        float max = height - sensorHeight;
+        // bin is 20cm tall
+        // max is 17cm (amount of total space)
+        // distance is 10cm
+        double percent = ((max - distance) / max)*100;
+        if(percent > 1)
+            percent = 1;
+
+        return String.format("%.1f%%", percent*100);
     }
 }

@@ -26,6 +26,12 @@ public class ReadingEventEntity {
 
     }
 
+    public float getPercent()
+    {
+        // remove % symbol so it can be parsed as a float
+        return Float.valueOf(this.getTitle().replace("%", ""));
+    }
+
     public float distanceToPercent(float distance, float height, float sensorHeight)
     {
         // when a bin is 100%
