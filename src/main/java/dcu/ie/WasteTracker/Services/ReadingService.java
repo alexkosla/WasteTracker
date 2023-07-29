@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import dcu.ie.WasteTracker.Models.ReadingModel;
 import dcu.ie.WasteTracker.Repositories.ReadingRepository;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 public class ReadingService {
     private final ReadingRepository readingRepository;
@@ -121,6 +123,10 @@ public class ReadingService {
         float monDelta, tuesDelta, wedDelta, thursDelta, friDelta, satDelta, sunDelta;
         monDelta = tuesDelta = wedDelta = thursDelta = friDelta = satDelta = sunDelta = 0f;
 
+        // variables for the number of individual weekdays encountered
+        int monCount, tuesCount, wedCount, thursCount, friCount, satCount, sunCount;
+        monCount = tuesCount = wedCount = thursCount = friCount = satCount = sunCount = 0;
+
         // get all of the daily changes for each daily reading
         for(int readingDay = dailyReadings.size() - 1; readingDay > 0; readingDay--)
         {
@@ -128,7 +134,7 @@ public class ReadingService {
             float newPercent = dailyReadings.get(readingDay).getPercent();
             LocalDateTime newDay = LocalDateTime.parse(dailyReadings.get(readingDay).getStart());
             LocalDateTime oldDay = LocalDateTime.parse(dailyReadings.get(readingDay-1).getStart());
-            float delta = oldPercent - newPercent;
+            float delta = newPercent - oldPercent;
 
             // check if bin has been emptied and adjust the delta
             if (delta <= 0)
@@ -139,45 +145,61 @@ public class ReadingService {
 
             // if the two daily readings aren't from adjacent days, then calculate an average change
             // note that this may not work if the bin has been emptied multiple times
-            if (!(newDay.getDayOfWeek().getValue() - 1 == oldDay.getDayOfWeek().getValue()))
+            var newDayOfWeekVal =  newDay.getDayOfWeek().getValue();
+            var left = newDayOfWeekVal - 1;
+            var right = oldDay.getDayOfWeek().getValue();
+            // use a mod on the old day because (1-1 =/= 7)
+            long daysBetween = DAYS.between(oldDay, newDay);
+            if (daysBetween > 1)
             {
-                delta = delta / oldDay.getDayOfWeek().compareTo(newDay.getDayOfWeek());
+                // note this is triggered on 7-24 looking back at 7-23
+                // divide the change by the amount of days passed between the two readings
+                var daysPast = oldDay.getDayOfWeek().compareTo(newDay.getDayOfWeek());
+                delta = delta / daysBetween;
             }
 
             switch (newDay.getDayOfWeek().getValue())
             {
                 case(1):
-                    monDelta =+ delta;
+                    monDelta = monDelta + delta;
+                    monCount++;
                     break;
                 case(2):
-                    tuesDelta =+ delta;
+                    tuesDelta = tuesDelta + delta;
+                    tuesCount++;
                     break;
                 case(3):
-                    wedDelta =+ delta;
+                    wedDelta = wedDelta + delta;
+                    wedCount++;
                     break;
                 case(4):
-                    thursDelta =+ delta;
+                    thursDelta = thursDelta + delta;
+                    thursCount++;
                     break;
                 case(5):
-                    friDelta =+ delta;
+                    friDelta = friDelta + delta;
+                    friCount++;
                     break;
                 case(6):
-                    satDelta =+ delta;
+                    satDelta = satDelta + delta;
+                    satCount++;
                     break;
                 case(7):
-                    sunDelta =+ delta;
+                    sunDelta = sunDelta + delta;
+                    sunCount++;
                     break;
-
             }
 
         }
-        dailyAverageEntity.setMondayChange(monDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setTuesdayChange(tuesDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setWednesdayChange(wedDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setThursdayChange(thursDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setFridayChange(friDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setSaturdayChange(satDelta / dailyReadings.size() * 100);
-        dailyAverageEntity.setSundayChange(sunDelta / dailyReadings.size() * 100);
+
+        // NEEDS TO DIVIDE BY NUMBER OF MONDAYS/TUESDAY/ETC. NOT BY TOTAL NUMBER OF DAYS
+        dailyAverageEntity.setMondayChange(monDelta / monCount);
+        dailyAverageEntity.setTuesdayChange(tuesDelta / tuesCount);
+        dailyAverageEntity.setWednesdayChange(wedDelta / wedCount);
+        dailyAverageEntity.setThursdayChange(thursDelta / thursCount);
+        dailyAverageEntity.setFridayChange(friDelta / friCount);
+        dailyAverageEntity.setSaturdayChange(satDelta / satCount);
+        dailyAverageEntity.setSundayChange(sunDelta / sunCount);
 
         return dailyAverageEntity;
     }
