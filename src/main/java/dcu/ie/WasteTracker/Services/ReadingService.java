@@ -79,40 +79,40 @@ public class ReadingService {
         return readingModel;
     }
 
-    public DailyAverageEntity getDailyAverages()
-    {
-        List<ReadingModel> allReadings = readingRepository.findAll();
-        DailyAverageEntity dailyAverageEntity = new DailyAverageEntity();
-        for(int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++)
-        {
-            String averagePercent = dayOfWeekAvg(allReadings, dayOfWeek);
-            switch(dayOfWeek)
-            {
-                case(1):
-                    dailyAverageEntity.setMondayAvg(averagePercent);
-                    break;
-                case(2):
-                    dailyAverageEntity.setTuesdayAvg(averagePercent);
-                    break;
-                case(3):
-                    dailyAverageEntity.setWednesdayAvg(averagePercent);
-                    break;
-                case(4):
-                    dailyAverageEntity.setThursdayAvg(averagePercent);
-                    break;
-                case(5):
-                    dailyAverageEntity.setFridayAvg(averagePercent);
-                    break;
-                case(6):
-                    dailyAverageEntity.setSaturdayAvg(averagePercent);
-                    break;
-                case(7):
-                    dailyAverageEntity.setSundayAvg(averagePercent);
-                    break;
-            }
-        }
-        return dailyAverageEntity;
-    }
+//    public DailyAverageEntity getDailyAverages()
+//    {
+//        List<ReadingModel> allReadings = readingRepository.findAll();
+//        DailyAverageEntity dailyAverageEntity = new DailyAverageEntity();
+//        for(int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++)
+//        {
+//            String averagePercent = dayOfWeekAvg(allReadings, dayOfWeek);
+//            switch(dayOfWeek)
+//            {
+//                case(1):
+//                    dailyAverageEntity.setMondayAvg(averagePercent);
+//                    break;
+//                case(2):
+//                    dailyAverageEntity.setTuesdayAvg(averagePercent);
+//                    break;
+//                case(3):
+//                    dailyAverageEntity.setWednesdayAvg(averagePercent);
+//                    break;
+//                case(4):
+//                    dailyAverageEntity.setThursdayAvg(averagePercent);
+//                    break;
+//                case(5):
+//                    dailyAverageEntity.setFridayAvg(averagePercent);
+//                    break;
+//                case(6):
+//                    dailyAverageEntity.setSaturdayAvg(averagePercent);
+//                    break;
+//                case(7):
+//                    dailyAverageEntity.setSundayAvg(averagePercent);
+//                    break;
+//            }
+//        }
+//        return dailyAverageEntity;
+//    }
 
     public DailyAverageEntity getDailyChanges()
     {
