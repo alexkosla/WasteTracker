@@ -1,8 +1,12 @@
+// const { Calendar } = require("fullcalendar");
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    let calendarEl: HTMLElement = document.getElementById('calendar')!;
     console.log("hello world dorrrrk");
     
-    var calendar = new FullCalendar.Calendar(calendarEl, {
+    var calendar = new Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         // initialView: 'dayGridWeek',
         height: "90%",
@@ -122,10 +126,13 @@ function setAvgChanges(changes, calendar)
     if(changes.sundayChange) {calendar.addEvent({title: changes.sundayChange, daysOfWeek: [7]})}
 }
 
-function setPickupAlert(readings, schedule, calendar)
+function setPickupAlert(averages, current_percent, schedule, calendar: typeof Calendar)
 {
     // using data i've already fetched, figure out if the user should take out their waste
     // display it somehow, probably above the calendar as like an h1
+    
+    // find the current date and the next pickup date
+    var currDate = calendar.getDate();
 
     // fetch(users_url, {
     //     method: "GET",

@@ -1,5 +1,5 @@
 // localhost port for development
-url = "http://localhost:8080/users/create";
+var url = "http://localhost:8080/users/create";
 // example of url used with tomcat
 // url = "http://localhost:8087/mapstatstf-q3-4/submit-user";
 
@@ -68,10 +68,10 @@ function saveStats(){
     }
 
     // save the dict you've added the form stats to to local storage
-    request = JSON.stringify(toSaveDict);
+    var request = JSON.stringify(toSaveDict);
 
     console.log(request);
-    event.preventDefault();
+    // event.preventDefault();
     fetch(url, {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
