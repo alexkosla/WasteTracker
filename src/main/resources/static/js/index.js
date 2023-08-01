@@ -1,8 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+    console.log("hello world dorrrrk");
     
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth'
+        initialView: 'dayGridMonth',
+        // initialView: 'dayGridWeek',
+        height: "90%",
+        themeSystem: 'standard',
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short'
+        }
+        // contentHeight: 500
     });
     console.log("about to fetch readings");
     const daily_url = "http://localhost:8080/readings/getDaily";
@@ -15,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // calendar.addEvent({title: '80%', start: '2023-07-18', end: '2023-07-18'});
     setPickupAlert(readings, schedule, calendar);
 
-    calendar.render();
+    calendar.render(); 
+    console.log(calendar);
 });
 
 function getDailyReadings(calendar)

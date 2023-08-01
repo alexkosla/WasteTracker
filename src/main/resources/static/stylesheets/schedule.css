@@ -1,0 +1,252 @@
+ul {
+    /* list-style-type none for no bulletpoints */
+    list-style-type: none;
+    /* 0 margin or padding to put the nav at the top left */
+    margin: 0;
+    padding: 0;
+    /* cut off text if it doesn't fit */
+    overflow: hidden;
+  }
+  
+  li {
+    /* align list items on the left */
+    float: left;
+  }
+  
+  li a {
+    /* for list text, use the specific font */
+    font-family: Arial, Helvetica, sans-serif;
+    /* the block display looks nicer than default */
+    display: block;
+    /* offwhite font color */
+    color: whitesmoke;
+    /* centered text */
+    text-align: center;
+    /* larger font size */
+    font-size: 24px;
+    /* adds padding for nicer display */
+    padding: 14px 16px;
+    /* removes underlines */
+    text-decoration: none;
+    height: 36px;
+  }
+  
+  /* Change the link color to seagreen on hover */
+  li a:hover {
+    background-color: seagreen;
+  }
+  
+  .active {
+    /* if the page is currently in use, use a special color */
+    background-color: #04AA6D;
+  }
+  
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    color: whitesmoke;
+    background-color: #333;
+    /* force content to have no margin topleft */
+    margin: 0px;
+    padding: 0px;
+  }
+  
+ 
+ /* Style inputs, select elements and textareas 
+    for the input field when it's of text type
+    12px padding all around
+    a solid grey border with rounded edges
+    width of 100% includes the border (border-box)
+    the text input will resize vertically if needed */
+ input[type=text], select, textarea{
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  
+  /* Style the label to display next to the inputs 
+      12px padding all sides except left
+      have it appear inline in block style */
+  label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+  }
+  
+  /* Style the submit button 
+     12px padding for top and bottom
+     20px for left and right
+     10% wide, color scheme change
+     round border, cursor appears as a pointer on it*/
+  button {
+    width: 10%;
+    background-color: #04AA6D;
+    color: whitesmoke;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  
+  /* Style the load button
+    correct color scheme
+    12px padding on top and bottom, 20 left and right
+    no border but make the edges of the button rounded
+    on mouse-over use a pointer cursor
+    align the button on the left */
+  .loadbutton {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+  }
+  
+  /* Style the container */
+  .container {
+    border-radius: 5px;
+    background-color: #333;
+    padding: 20px;
+  }
+  
+  /* Floating column for labels: 25% width */
+  .col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px; /* use a margin for the top */
+  }
+  
+  /* Floating column for inputs: 75% width */
+  .col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px; /* use a margin for the top */
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: ""; /* display nothing after the row */
+    display: grid; /* use a grid layout */
+    clear: both; /* moves border edge down and evens it out */
+  }
+  
+  /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+    .col-25, .col-75, input[type=submit] {
+      width: 100%;
+      margin-top: 0;
+    }
+  }  
+  /* The switch - the box around the slider for the checkbox on the user page*/
+  .switch {
+    /* display the switch inline with the row */
+    position: relative; 
+    display: inline-block;
+    width: 40px;
+    height: auto;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* styling the round box around the circle */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s; /* transition speed from on to off */
+  }
+  
+  /* styling the little circle before it gets clicked */
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s; /* transition speed from off to on */
+  }
+  
+  /* when clicked, change the background color */
+  input:checked + .slider {
+    background-color: #04AA6D;
+  }
+  
+  /* when a textbox is selected, change its color to grey */
+  input:focus {
+    background-color: #dddddd;
+  }
+  
+  /* how far to move the slider when it's clicked */
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+  
+  /* the roundness of the container holding the slider */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  /* how round the slider is before being clicked */
+  .slider.round:before {
+    border-radius: 50%;
+  } 
+
+  .classstats, table {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  /* table headers are aligned at the bottom to be closer to the table itself 
+      they're also taller than standard*/
+  th {
+    height: 70px;
+    vertical-align: bottom;
+  }
+  
+  /* every other row alternate between grey and black for better visibility */
+  tr:nth-child(even) {
+      background-color: #444;
+  }
+  
+  tr:nth-child(odd) {
+      background-color: #333;
+  }
+  
+  /* highlight the selected row */
+  tr:hover {
+    background-color:#04AA6D;
+  }
+  
+  td {
+    /* for every cell, make it slightly bigger and use a bigger font */
+    height: 40px;
+    font-size: 20px;
+    /* vertically align text in the cells to the middle */
+    vertical-align: middle;
+    /* use a light green border for every cell */
+    border: 1px solid;
+    border-color: yellowgreen;
+    text-align: center;
+  }
+  
+  /* highlight the specific selected cell in a darker green*/
+  td:hover{
+      background-color:#037e51;
+  }

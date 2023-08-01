@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +16,7 @@ public class UserModel {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "user_Id", nullable = false)
     private UUID UserId;
+    private LocalDateTime Timestamp;
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "Username", nullable = false)
     private String Username;
@@ -35,6 +37,7 @@ public class UserModel {
     }
     public UserModel(UserEntity userEntity) {
         this.UserId = UUID.randomUUID();
+        this.Timestamp = userEntity.getTimestamp();
         this.Username = userEntity.getUsername();
         this.MondayPickup = userEntity.isMondayPickup();
         this.TuesdayPickup = userEntity.isTuesdayPickup();
@@ -51,6 +54,14 @@ public class UserModel {
 
     public void setUserId(UUID userId) {
         UserId = userId;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return Timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        Timestamp = timestamp;
     }
 
     public String getUsername() {
@@ -116,4 +127,5 @@ public class UserModel {
     public void setSundayPickup(boolean sundayPickup) {
         SundayPickup = sundayPickup;
     }
+
 }

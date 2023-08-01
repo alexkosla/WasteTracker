@@ -6,6 +6,7 @@ import dcu.ie.WasteTracker.Models.ReadingModel;
 import dcu.ie.WasteTracker.Models.UserModel;
 import dcu.ie.WasteTracker.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +24,16 @@ public class UserController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<UserModel>> getAllUsers() {
+    public ResponseEntity<List<UserEntity>> getAllUsers() {
         System.out.println("--- Getting users ---");
         return ResponseEntity.ok(userService.getAllUsers());
     }
     @PostMapping("/create")
     @CrossOrigin(origins ="*")
-    public ResponseEntity<UserModel> saveUser(@RequestBody UserEntity userEntity) throws IOException
+    public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity) throws IOException
     {
         System.out.println("--- Saving user ---");
-        return ResponseEntity.ok(userService.saveUser(userEntity));
+        return new ResponseEntity<UserEntity>(userService.saveUser(userEntity), HttpStatus.CREATED);
+//        return ResponseEntity.ok(userService.saveUser(userEntity));
     }
 }

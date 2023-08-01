@@ -1,0 +1,169 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css"
+        href="stylesheets/schedule.css">
+        <link rel="stylesheet" type="text/css"
+        href="stylesheets/sidebar.css">
+        <!-- separate file for the javascript code and i'll also need to reference some kind of jquery -->
+        <script src="js/sidebar.js"></script> 
+        <script src="js/schedule.js"></script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    </head>
+    <!-- this nav contains a list of pages to link to at the top, it's styled by css -->    
+    <nav>
+        <ul>
+            <!-- the active class will make the background behind the text green -->
+            <!-- I also aligned "My Stats" on the right using float:right -->
+          <div id="main">
+            <!-- hamburger menu on the left, uses an icon that when clicked, tells js to open the sidebar -->
+            <li id="indexmenu" onclick="openNav()"><a>&#9776;</a></li>
+            <li><a href="index.html">Wastetracker</a></li>
+          </div>
+          <li style="float:right"><a class="active" href="schedule.html">My Schedule</a></li>
+        </ul>
+    </nav>
+
+    <!-- a sidebar that is defined by the sidebar class in css -->
+    <div id="mySidebar" class="sidebar">
+      <!-- a close button that triggers the closeNav function -->
+      <a class="closebtn" onclick="closeNav()">&times;</a>
+      <ul>
+          <!-- links to the two form pages -->
+          <li><a href="new-user.html">Add new user</a></li>
+          <li><a href="new-stats.html">Submit stats</a></li>
+      </ul>
+    </div>
+    
+    <body>
+      <!-- the mystats class is split into 2 columns, one for the class image and one for the table -->
+      <h2 style="text-align:center">
+          Add new user
+      </h1>
+      <!-- container that holds all of the form-related things -->
+      <div class="container">
+        <!-- a form that with various fields that are submitted -->
+        <form id="addScheduleForm">
+          <!-- each row of the form has a 25% width column for the field name 
+            and a 75% width column for entering data -->
+          <div class="row">
+            <div class="col-25">
+              <!-- the label for the username object -->
+              <label for="username">Username</label>
+            </div>
+            <div class="col-25">
+              <!-- set id for DOM access
+                set the name to access the form control
+                use input type text to tell html to have a textbox
+                placeholder for the hint text  -->
+              <input type="text" id="username" name="username" placeholder="Enter username">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="MondayPickup">Monday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="MondayPickup" name="MondayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="TuesdayPickup">Tuesday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="TuesdayPickup" name="TuesdayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="WednesdayPickup">Wednesday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="WednesdayPickup" name="WednesdayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="ThursdayPickup">Thursday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="ThursdayPickup" name="ThursdayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="FridayPickup">Friday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="FridayPickup" name="FridayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="SaturdayPickup">Saturday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="SaturdayPickup" name="SaturdayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+                <label for="SundayPickup">Sunday Pickup</label>
+            </div>
+            <div class="col-75">
+              <!-- use the switch class for styling
+                  use the checkbox type of input (but the display will be changed from vanilla, see css
+                  id and name fields set for DOM and form control access -->
+                <label class="switch">
+                    <input type="checkbox" id="SundayPickup" name="SundayPickup">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+          </div>
+          <div class="row">
+            <!-- at the bottom of the form, have two buttons
+                the left one loads stats by calling loadStats()
+                the right one submits stats by first calling validateForm() -->
+            <button class="btn-submit" type="button" style="float: right;"
+                id="btn-submit" onclick="validateForm()">Submit</button>
+          </div>
+        </form>
+      </div>
+    </body>
+</html>
