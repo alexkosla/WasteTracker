@@ -1,13 +1,9 @@
-// import { Calendar } from '@fullcalendar/core';
-
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        // initialView: 'dayGridWeek',
-        height: "90%",
-        // themeSystem: 'standard',
+        height: "85%",
         eventTimeFormat: {
             hour: 'numeric',
             minute: '2-digit',
@@ -17,10 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             end: 'dayGridMonth,timeGridWeek today prev,next',
             start: 'title',
         },
-        // contentHeight: 500
     });
-    console.log("about to fetch readings");
-    const daily_url = "http://localhost:8080/readings/getDaily";
 
     var percents = getDailyReadings(calendar);
     var schedule = getPickupDays(calendar);
@@ -28,23 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     Promise.all([average_changes, percents, schedule]).then((values) => {
         console.log(values);
         setPickupAlert(values[0], values[1], values[2], calendar);
-    })
-
-    // calendar.addEvent({title: '50%', start: '2023-07-17', end: '2023-07-17'});
-    // calendar.addEvent({title: '80%', start: '2023-07-18', end: '2023-07-18'});
-        
-    // setTimeout(() =>
-    // {
-    //     console.log("printing percents after delay");
-    //     console.log(average_changes);
-    //     console.log(percents);
-    //     console.log(schedule);
-    //     setPickupAlert(average_changes, percents, schedule, calendar);
-    // }, 2000);
-    
+    })    
 
     calendar.render(); 
-    console.log(calendar);
 });
 
 async function getDailyReadings(calendar)
@@ -139,7 +118,6 @@ function setPickupDays(user, calendar)
 
 function setAvgChanges(changes, calendar)
 {
-    console.log("in setAvgChanges");
     if(changes.mondayChange) {calendar.addEvent({title: changes.mondayChange + '% avg increase', color:'rgb(50,50,50)', daysOfWeek: [1]})}
     if(changes.tuesdayChange) {calendar.addEvent({title: changes.tuesdayChange + '% avg increase', color:'rgb(50,50,50)', daysOfWeek: [2]})}
     if(changes.wednesdayChange) {calendar.addEvent({title: changes.wednesdayChange + '% avg increase', color:'rgb(50,50,50)', daysOfWeek: [3]})}
@@ -161,11 +139,10 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     // using data i've already fetched, figure out if the user should take out their waste
     // display it somehow, probably above the calendar as like an h1
 
+    var alert = document.getElementById('alert');
     var currDate = calendar.getDate();
-    console.log("in setPickupAlert");
-    console.log(average_changes);
-    console.log(percents);
-    console.log(schedule);
+    alert.hidden = true;
+    alert.innerHTML = "";
 
     // 1. get the current day
     // 2. figure out what the next pickup day is
@@ -177,16 +154,53 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     // let's assume that we'll have a reading for today
     var currReading = percents[percents.length - 1];
     var currReadingDate = new Date(currReading["end"]);
-    console.log(currReadingDate);
 
+    // if the date of the last reading does not equal today
+    // then don't display an error
+    var today = new Date();
+    var shouldCheckNextPickup = true;
+
+    // if there is no reading for the current day, never display a pickup alert
+    if(currReadingDate.getFullYear() == today.getFullYear() && currReadingDate.getMonth() == today.getMonth() && currReadingDate.getDate() == today.getDate())
+        shouldCheckNextPickup = false;
     
     // 2. figure out what the next pickup day is
     // add on a date and check if the new date is a pickup day
     // gets day of the week as a number
-    console.log(currReadingDate.getDay());
-}
+    // day int is 0 for sunday, 6 for saturday, bizarrely
+    var pickupDayDecoder = {0: "sundayPickup", 1: "mondayPickup", 2: "tuesdayPickup", 
+                            3: "wednesdayPickup", 4: "thursdayPickup", 5: "fridayPickup", 6: "saturdayPickup"};
+    var avgChangeDecoder = {0: "sundayChange", 1: "mondayChange", 2: "tuesdayChange", 
+                            3: "wednesdayChange", 4: "thursdayChange", 5: "fridayChange", 6: "saturdayChange"};
 
-function calculateNextPickup(average_changes, percents, schedule)
-{
-    // first calculate if the user needs
+    var currDayInt = currReadingDate.getDay();
+    var totalPercent = parseFloat(currReading.percent);
+    var nextDayInt = (currDayInt + 1) % 7;
+
+    if(shouldCheckNextPickup)
+    {
+        for(dayCount = 0; dayCount < 7; dayCount++)
+        {
+            currDayInt += dayCount;
+            var nextDayInt = (currDayInt + 1) % 7;
+            debugger
+    
+            // if the next day is a pickup day
+            if(schedule[pickupDayDecoder[nextDayInt]])
+            {
+                // check if totalPercent exceeds threshold
+                if(totalPercent > 90.0)
+                {
+                    alert.hidden = false;
+                    alert.innerHTML = "Recommendation: Take out your bin";
+                    break;
+                }
+                // if the next pickup day isn't the following day
+                // estimate the waste production by getting the average percent for that day
+                // and adding it onto the totalPercent
+                totalPercent += parseFloat(average_changes[avgChangeDecoder[nextDayInt]]);
+            }
+        }
+    }
+    
 }
