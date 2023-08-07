@@ -158,11 +158,16 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     // if the date of the last reading does not equal today
     // then don't display an error
     var today = new Date();
-    var shouldCheckNextPickup = true;
+    var readingIsUpToDate = false;
+    var pickupIsTomorrow = false;
 
     // if there is no reading for the current day, never display a pickup alert
     if(currReadingDate.getFullYear() == today.getFullYear() && currReadingDate.getMonth() == today.getMonth() && currReadingDate.getDate() == today.getDate())
-        shouldCheckNextPickup = false;
+    {
+        console.log("last reading is today, gonna check for pickup alert")
+        readingIsUpToDate = true;
+        debugger
+    }
     
     // 2. figure out what the next pickup day is
     // add on a date and check if the new date is a pickup day
@@ -177,12 +182,18 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     var totalPercent = parseFloat(currReading.percent);
     var nextDayInt = (currDayInt + 1) % 7;
 
-    if(shouldCheckNextPickup)
+    // if tomorrow is a pickup day, try to calculate if you should take out the bin now
+    // or wait until the next pickup day
+    if(schedule[pickupDayDecoder[nextDayInt]])
+        pickupIsTomorrow = true;
+
+    if(pickupIsTomorrow && readingIsUpToDate)
     {
         for(dayCount = 0; dayCount < 7; dayCount++)
         {
             currDayInt += dayCount;
-            var nextDayInt = (currDayInt + 1) % 7;
+            // check for the next pickup day AFTER tomorrow
+            var nextDayInt = (currDayInt + 2) % 7;
             debugger
     
             // if the next day is a pickup day
@@ -193,13 +204,19 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
                 {
                     alert.hidden = false;
                     alert.innerHTML = "Recommendation: Take out your bin";
-                    break;
                 }
+                // if the threshold isn't estimated to be exceeded by the next pickup day
+                // then no alert needs to be displayed
+                break;
+            }
+            else
+            {
                 // if the next pickup day isn't the following day
                 // estimate the waste production by getting the average percent for that day
                 // and adding it onto the totalPercent
                 totalPercent += parseFloat(average_changes[avgChangeDecoder[nextDayInt]]);
             }
+            console.log("total percent is: "+totalPercent);
         }
     }
     
