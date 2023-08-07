@@ -21,24 +21,15 @@
         <!-- the active class will make the background behind the text green -->
         <!-- I also aligned "My Stats" on the right using float:right -->
           <div id="main">
-            <!-- hamburger menu on the left, uses an icon that when clicked, tells js to open the sidebar -->
-            <li id="indexmenu" onclick="openNav()"><a>&#9776;</a></li>
             <li><a class="active" href="index.html">Wastetracker</a></li>
           </div>
           <li style="float:right"><a href="schedule.html">My Schedule</a></li>      
         </ul>
   </nav> 
-
-  <!-- a sidebar that is defined by the sidebar class in css -->
-  <div id="mySidebar" class="sidebar">
-    <!-- a close button that triggers the closeNav function -->
-    <a class="closebtn" onclick="closeNav()">&times;</a>
-    <ul>
-        <!-- links to the two form pages -->
-        <li><a href="new-user.html">Add new user</a></li>
-        <li><a href="new-stats.html">Submit stats</a></li>
-    </ul>
-  </div>
     <body>
+        <div style="text-align: center; color: orange;">
+          <h1 id="alert"></h1>
+        </div>
         <div id='calendar'></div>
+    </body>
 </html>
