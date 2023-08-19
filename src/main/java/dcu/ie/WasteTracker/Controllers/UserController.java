@@ -34,6 +34,5 @@ public class UserController {
     {
         System.out.println("--- Saving user ---");
         return new ResponseEntity<UserEntity>(userService.saveUser(userEntity), HttpStatus.CREATED);
-//        return ResponseEntity.ok(userService.saveUser(userEntity));
     }
 }

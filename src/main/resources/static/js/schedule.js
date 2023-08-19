@@ -1,50 +1,15 @@
 // localhost port for development
 url = "http://localhost:8080/users/create";
-// example of url used with tomcat
-// url = "http://localhost:8087/mapstatstf-q3-4/submit-user";
 
-function validateForm() {
-    var missingFields = new Array();
-    let errormsg = "";
-    let hasMiscError = false;
-    var usernameTest = /^[a-zA-Z0-9._]*$/;
-
-    // for every field in the form, get its value and check if it's empty
-    // if it's empty, then add it to a list of missing fields
-    let username = document.forms["addScheduleForm"]["username"].value;
-    if (username == "") {
-      missingFields.push("Username");
-    }
-    if(!usernameTest.test(username))
-    {
-        alert("Only alphanumeric, ',', and '_' are allowed in username");
-    }
-    else{
-        // if there are no missing fields or format errors, save the entered data and then send an alert
-        saveStats();
-    }
-  } 
-
+// saveStats: Gets form data to select which days of the week there will be a waste pickup
+// Next, a timestamp string that is easily parsable as a Java LocalDateTime object is built using the current time
+// All of these values are saved to a dictionary, with the pickup data converted to bools
+// A dummy variable is set for username, as this uses the create user endpoint that was too late to change
+// the dict is converted to JSON and then POSTed to the create user endpoint
 function saveStats(){
     var toSave = document.forms["addScheduleForm"];
-
-    // try to load any saved states and parse them as a dict
-    // var loadedStats = JSON.parse(localStorage.getItem('users'));
     let toSaveDict = {};
 
-    // format the output of the isAdmin checkbox to be a capitalized bool
-    // if(toSave.admin.checked)
-    //     toSave.admin.value = true;
-    // else
-    //     toSave.admin.value = false;
-
-    toSave.MondayPickup.value = toSave.MondayPickup.checked ? true : false;
-    toSave.TuesdayPickup.value = toSave.TuesdayPickup.checked ? true : false;
-    toSave.WednesdayPickup.value = toSave.WednesdayPickup.checked ? true : false;
-    toSave.ThursdayPickup.value = toSave.ThursdayPickup.checked ? true : false;
-    toSave.FridayPickup.value = toSave.FridayPickup.checked ? true : false;
-    toSave.SaturdayPickup.value = toSave.SaturdayPickup.checked ? true : false;
-    toSave.SundayPickup.value = toSave.SundayPickup.checked ? true : false;
     var currentDate = new Date();
     var dd = String(currentDate.getDate()).padStart(2, '0');
     var month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!

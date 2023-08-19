@@ -16,48 +16,22 @@
             <!-- I also aligned "My Stats" on the right using float:right -->
           <div id="main">
             <!-- hamburger menu on the left, uses an icon that when clicked, tells js to open the sidebar -->
-            <li id="indexmenu" onclick="openNav()"><a>&#9776;</a></li>
             <li><a href="index.html">Wastetracker</a></li>
           </div>
           <li style="float:right"><a class="active" href="schedule.html">My Schedule</a></li>
         </ul>
     </nav>
 
-    <!-- a sidebar that is defined by the sidebar class in css -->
-    <div id="mySidebar" class="sidebar">
-      <!-- a close button that triggers the closeNav function -->
-      <a class="closebtn" onclick="closeNav()">&times;</a>
-      <ul>
-          <!-- links to the two form pages -->
-          <li><a href="new-user.html">Add new user</a></li>
-          <li><a href="new-stats.html">Submit stats</a></li>
-      </ul>
-    </div>
-    
+    <!-- a sidebar that is defined by the sidebar class in css -->    
     <body>
       <!-- the mystats class is split into 2 columns, one for the class image and one for the table -->
       <h2 style="text-align:center">
-          Add new user
+          Modify your pickup schedule
       </h1>
       <!-- container that holds all of the form-related things -->
       <div class="container">
         <!-- a form that with various fields that are submitted -->
         <form id="addScheduleForm">
-          <!-- each row of the form has a 25% width column for the field name 
-            and a 75% width column for entering data -->
-          <div class="row">
-            <div class="col-25">
-              <!-- the label for the username object -->
-              <label for="username">Username</label>
-            </div>
-            <div class="col-25">
-              <!-- set id for DOM access
-                set the name to access the form control
-                use input type text to tell html to have a textbox
-                placeholder for the hint text  -->
-              <input type="text" id="username" name="username" placeholder="Enter username">
-            </div>
-          </div>
           <div class="row">
             <div class="col-25">
                 <label for="MondayPickup">Monday Pickup</label>
@@ -161,7 +135,7 @@
                 the left one loads stats by calling loadStats()
                 the right one submits stats by first calling validateForm() -->
             <button class="btn-submit" type="button" style="float: right;"
-                id="btn-submit" onclick="validateForm()">Submit</button>
+                id="btn-submit" onclick="saveStats()">Submit</button>
           </div>
         </form>
       </div>

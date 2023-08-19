@@ -31,12 +31,15 @@ public class ReadingService {
         return readingRepository.findAll();
     }
 
+
+    // getDaily: Gets all of the readings in the database, and filters them so only the last reading of
+    // each day is returned, in a list of readings.
     public List<ReadingEventEntity> getDaily()
     {
         var readings = readingRepository.findAll();
 
         /*
-        What follows is an attempted java recreation of the below LINQ code
+        What follows is an attempted java recreation of the below LINQ (C#) code
         dates = readingList.Select(r -> r.getTimestamp().getDate()).Distinct();
         foreach(Date d in dates)
         {
@@ -79,41 +82,7 @@ public class ReadingService {
         return readingModel;
     }
 
-//    public DailyAverageEntity getDailyAverages()
-//    {
-//        List<ReadingModel> allReadings = readingRepository.findAll();
-//        DailyAverageEntity dailyAverageEntity = new DailyAverageEntity();
-//        for(int dayOfWeek = 1; dayOfWeek <= 7; dayOfWeek++)
-//        {
-//            String averagePercent = dayOfWeekAvg(allReadings, dayOfWeek);
-//            switch(dayOfWeek)
-//            {
-//                case(1):
-//                    dailyAverageEntity.setMondayAvg(averagePercent);
-//                    break;
-//                case(2):
-//                    dailyAverageEntity.setTuesdayAvg(averagePercent);
-//                    break;
-//                case(3):
-//                    dailyAverageEntity.setWednesdayAvg(averagePercent);
-//                    break;
-//                case(4):
-//                    dailyAverageEntity.setThursdayAvg(averagePercent);
-//                    break;
-//                case(5):
-//                    dailyAverageEntity.setFridayAvg(averagePercent);
-//                    break;
-//                case(6):
-//                    dailyAverageEntity.setSaturdayAvg(averagePercent);
-//                    break;
-//                case(7):
-//                    dailyAverageEntity.setSundayAvg(averagePercent);
-//                    break;
-//            }
-//        }
-//        return dailyAverageEntity;
-//    }
-
+    // getDailyChanges: Calculates the average increase in bin fullness for each day of the week.
     public DailyAverageEntity getDailyChanges()
     {
         List<ReadingEventEntity> dailyReadings = getDaily();

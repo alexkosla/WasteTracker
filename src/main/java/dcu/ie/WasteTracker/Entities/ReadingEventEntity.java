@@ -14,8 +14,12 @@ public class ReadingEventEntity {
         // end is exclusive of start (see event parsing docs for fullcalendar) so it needs to be AFTER start
         this.end = timestamp.plusMinutes(1).toString();
         // hardcoded to match the bin and sensor heights of my bin
-        float percent = distanceToPercent(distance, 26.5f, 1.5f) * 100;
-        this.title = String.format("%.1f%%", percent);
+        float percent = distanceToPercent(distance, 26.5f, 2f) * 100;
+        // round percent to be a multiple of 5 to account for noise
+        percent = 5*Math.round(percent/5);
+        System.out.println("rounded percent to: "+percent);
+
+        this.title = String.format("%.0f%%", percent);
 
         if(percent >= 75)
             this.color = "Red";
