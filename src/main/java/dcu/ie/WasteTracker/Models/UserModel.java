@@ -8,6 +8,8 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+// A schedule class that represents an individual user's schedule. Just used as a schedule for now
+// It was originally intended to be extended to support having multiple users/logins/schedules on the application
 @Entity
 @Table(name = "user")
 public class UserModel {
