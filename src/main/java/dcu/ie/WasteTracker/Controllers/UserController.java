@@ -23,11 +23,15 @@ public class UserController {
         this.userService = userService;
     }
 
+    // getAll: gets the list of all users(schedules) from the database
+    // sorted by last submitted (descending)
     @GetMapping("/getAll")
     public ResponseEntity<List<UserEntity>> getAllUsers() {
         System.out.println("--- Getting users ---");
         return ResponseEntity.ok(userService.getAllUsers());
     }
+
+    // saveUser: saves a new user(schedule) to the database
     @PostMapping("/create")
     @CrossOrigin(origins ="*")
     public ResponseEntity<UserEntity> saveUser(@RequestBody UserEntity userEntity) throws IOException

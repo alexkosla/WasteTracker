@@ -8,8 +8,16 @@ url = "http://localhost:8080/users/create";
 // the dict is converted to JSON and then POSTed to the create user endpoint
 function saveStats(){
     var toSave = document.forms["addScheduleForm"];
+    debugger
     let toSaveDict = {};
 
+    toSave.MondayPickup.value = toSave.MondayPickup.checked ? true : false;
+    toSave.TuesdayPickup.value = toSave.TuesdayPickup.checked ? true : false;
+    toSave.WednesdayPickup.value = toSave.WednesdayPickup.checked ? true : false;
+    toSave.ThursdayPickup.value = toSave.ThursdayPickup.checked ? true : false;
+    toSave.FridayPickup.value = toSave.FridayPickup.checked ? true : false;
+    toSave.SaturdayPickup.value = toSave.SaturdayPickup.checked ? true : false;
+    toSave.SundayPickup.value = toSave.SundayPickup.checked ? true : false;
     var currentDate = new Date();
     var dd = String(currentDate.getDate()).padStart(2, '0');
     var month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -31,6 +39,28 @@ function saveStats(){
         saturdayPickup: toSave.SaturdayPickup.checked ? true : false,
         sundayPickup: toSave.SundayPickup.checked ? true : false
     }
+
+    // var currentDate = new Date();
+    // var dd = String(currentDate.getDate()).padStart(2, '0');
+    // var month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    // var yyyy = currentDate.getFullYear();
+    // var hh = String(currentDate.getHours());
+    // var minutes = String(currentDate.getMinutes());
+    // var ss = String(currentDate.getSeconds());
+    // // format into java-readable LocalDateTime
+    // var dateTime = yyyy + "-" + month + "-" + dd + "T" + hh + ":" + minutes + ":" + ss;
+
+    // toSaveDict = {
+    //     username: "Jon_Arbuckle",
+    //     timestamp: dateTime,
+    //     mondayPickup: toSave.MondayPickup.checked ? true : false,
+    //     tuesdayPickup: toSave.TuesdayPickup.checked ? true : false,
+    //     wednesdayPickup: toSave.WednesdayPickup.checked ? true : false,
+    //     thursdayPickup: toSave.ThursdayPickup.checked ? true : false,
+    //     fridayPickup: toSave.FridayPickup.checked ? true : false,
+    //     saturdayPickup: toSave.SaturdayPickup.checked ? true : false,
+    //     sundayPickup: toSave.SundayPickup.checked ? true : false
+    // }
 
     // save the dict you've added the form stats to to local storage
     request = JSON.stringify(toSaveDict);

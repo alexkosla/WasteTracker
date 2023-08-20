@@ -21,6 +21,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    // getAllUsers: return all custom schedules saved in the db and sort them by time submitted (descending)
     public List<UserEntity> getAllUsers()
     {
         List<UserModel> userModels = userRepository.findAll();
@@ -30,6 +31,7 @@ public class UserService {
         return userEntities;
     }
 
+    // saveUser: save a user (schedule) to the database
     public UserEntity saveUser(UserEntity userEntity)
     {
         UserModel userModel = new UserModel(userEntity);
