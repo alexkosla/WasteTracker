@@ -14,6 +14,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+// ReadingModel: represents an individual sensor reading (distance in cm) and the time it was taken at
+// distance is the distance from the sensor (attached to the underside of the bin to the nearest
+// surface directly below it (the waste pile or the bottom of the bin)
 @Entity
 @Table(name = "readingtest")
 public class ReadingModel {

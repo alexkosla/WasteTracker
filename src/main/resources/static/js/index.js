@@ -1,3 +1,9 @@
+/**
+ * On page load, create a Calendar and display it on the page.
+ * Get the reading and pickup-related data, wait for it all to come from the back-end
+ * and then use them to call the setPickupAlert function that will display an alert if
+ * the bin needs to be taken out.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     
@@ -26,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render(); 
 });
 
+/**
+ * Gets an array of readings, only the last one for each day in the database
+ * @param {*} calendar 
+ * @returns 
+ */
 async function getDailyReadings(calendar)
 {
     try{
@@ -45,6 +56,13 @@ async function getDailyReadings(calendar)
     }
 }
 
+/**
+ * Gets the most recently submitted waste pickup schedule.
+ * Represented as a bool for each day of the week, true if there's a pickup.
+ * 
+ * @param {*} calendar 
+ * @returns
+ */
 async function getPickupDays(calendar)
 {
     try{
@@ -56,6 +74,7 @@ async function getPickupDays(calendar)
         const schedule = await response.json();
         var user = schedule[0];
 
+        console.log(user);
         if(user != null)
         {
             setPickupDays(user, calendar);
@@ -66,6 +85,11 @@ async function getPickupDays(calendar)
     }
 }
 
+/**
+ * Gets a dict of the average increase in bin fullness for each day of the week
+ * @param {*} calendar 
+ * @returns 
+ */
 async function getDailyChanges(calendar)
 {
     try{
@@ -84,29 +108,36 @@ async function getDailyChanges(calendar)
     }
 }
 
-function getDailyChangesOld(calendar)
-{
-    const avg_changes_url = "http://localhost:8080/readings/getDailyChanges";
-    var changes;
-    fetch(avg_changes_url, {
-            method: "GET",
-            headers: {"Content-type": "application/json"}
-        })
-        .then(response => response.json())
-        .then(data => {
-            changes = data;
-            console.log("changes are:");
-            console.log(changes);
-            setAvgChanges(changes, calendar);
-        })
-        .catch((error) => {
-            window.alert(error);
-        });   
-    return changes;
-}
+// function getDailyChangesOld(calendar)
+// {
+//     const avg_changes_url = "http://localhost:8080/readings/getDailyChanges";
+//     var changes;
+//     fetch(avg_changes_url, {
+//             method: "GET",
+//             headers: {"Content-type": "application/json"}
+//         })
+//         .then(response => response.json())
+//         .then(data => {
+//             changes = data;
+//             console.log("changes are:");
+//             console.log(changes);
+//             setAvgChanges(changes, calendar);
+//         })
+//         .catch((error) => {
+//             window.alert(error);
+//         });   
+//     return changes;
+// }
 
+/**
+ * Take a dict of user pickup days and display them on the calendar
+ * @param {*} user 
+ * @param {*} calendar 
+ */
 function setPickupDays(user, calendar)
 {
+    console.log("in setPickupDays");
+    debugger
     if(user.mondayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [1]})}
     if(user.tuesdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [2]})}
     if(user.wednesdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [3]})}
@@ -116,6 +147,12 @@ function setPickupDays(user, calendar)
     if(user.sundayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [7]})}
 }
 
+/**
+ * Take a dict of average changes for each day of the week
+ * and display them on the calendar
+ * @param {*} changes 
+ * @param {*} calendar 
+ */
 function setAvgChanges(changes, calendar)
 {
     if(changes.mondayChange) {calendar.addEvent({title: changes.mondayChange + '% avg increase', color:'rgb(50,50,50)', daysOfWeek: [1]})}
@@ -128,7 +165,7 @@ function setAvgChanges(changes, calendar)
 }
 
 /**
- * 
+ * Set an alert if the user should take out their waste for pickup
  * @param {Array} average_changes 
  * @param {Array} percents 
  * @param {Array} schedule 
@@ -140,7 +177,6 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     // display it somehow, probably above the calendar as like an h1
 
     var alert = document.getElementById('alert');
-    var currDate = calendar.getDate();
     alert.hidden = true;
     alert.innerHTML = "";
 
@@ -189,6 +225,12 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
 
     if(pickupIsTomorrow && readingIsUpToDate)
     {
+        // iterate through the next 7 days
+        // each day, add the average changes to a total number
+        // which begins as the current bin fullness
+        // it continues to add onto this total through to the day
+        // before the next (2nd) pickup day. If the total exceeds 90%
+        // the day immediately before the 2nd pickup day, an alert is recommended.
         for(dayCount = 0; dayCount < 7; dayCount++)
         {
             currDayInt += dayCount;
@@ -216,7 +258,7 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
                 // and adding it onto the totalPercent
                 totalPercent += parseFloat(average_changes[avgChangeDecoder[nextDayInt]]);
             }
-            console.log("total percent is: "+totalPercent);
+            console.log("total percent is: " + totalPercent);
         }
     }
     

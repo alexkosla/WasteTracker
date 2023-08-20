@@ -27,24 +27,29 @@ public class ReadingController {
         this.readingService = readingService;
     }
 
+    // getAllReadings: gets the list of all readings saved to the db
     @GetMapping("/getAll")
     public ResponseEntity<List<ReadingModel>> getAllReadings() {
         System.out.println("--- Getting readings ---");
         return ResponseEntity.ok(readingService.getAllReadings());
     }
 
+    // getDaily: gets a list of readings, but filtered so that only the
+    // last submitted reading on each day is included
     @GetMapping("/getDaily")
     public ResponseEntity<List<ReadingEventEntity>> getDaily() {
         System.out.println("--- Getting daily readings ---");
         return ResponseEntity.ok(readingService.getDaily());
     }
 
+    // getDailyChanges: gets the average change in bin fullness on each day of the week
     @GetMapping("/getDailyChanges")
     public ResponseEntity<DailyAverageEntity> getDailyChanges() {
         System.out.println("--- Getting daily changes ---");
         return ResponseEntity.ok(readingService.getDailyChanges());
     }
 
+    // saveReading: saves a new reading to the db, used by the RPI taking readings
     @PostMapping("/create")
     @CrossOrigin(origins ="*")
     public ResponseEntity<ReadingModel> saveReading(@RequestBody ReadingEntity readingEntity) throws IOException
