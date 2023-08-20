@@ -3,6 +3,7 @@ package dcu.ie.WasteTracker.Entities;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+// data transfer object to parse incoming reading jsons from the RPI
 public class ReadingEntity {
     private float Distance;
     private LocalDateTime Time;

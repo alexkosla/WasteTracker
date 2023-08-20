@@ -1,12 +1,9 @@
 package dcu.ie.WasteTracker.Services;
-import java.sql.Timestamp;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import dcu.ie.WasteTracker.Entities.DailyAverageEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEntity;
 import dcu.ie.WasteTracker.Entities.ReadingEventEntity;
@@ -26,6 +23,7 @@ public class ReadingService {
         this.readingRepository = readingRepository;
     }
 
+    // get the list of all readings
     public List<ReadingModel> getAllReadings()
     {
         return readingRepository.findAll();
@@ -75,6 +73,7 @@ public class ReadingService {
         return readingEventEntities;
     }
 
+    // saveReading: save a distance reading + timestamp to the database
     public ReadingModel saveReading(ReadingEntity readingEntity)
     {
         ReadingModel readingModel = new ReadingModel(readingEntity);
@@ -171,34 +170,5 @@ public class ReadingService {
         dailyAverageEntity.setSundayChange(sunDelta / sunCount);
 
         return dailyAverageEntity;
-    }
-
-    public String dayOfWeekAvg(List<ReadingModel> readingModels, int day)
-    {
-        float avgDistance = ((float) readingModels.stream()
-                .filter(reading -> reading.getTime().getDayOfWeek().getValue() == day)
-                .map(reading -> reading.getDistance())
-                .mapToDouble(Float::doubleValue)
-                .average()
-                .orElse(0.0));
-
-        return distanceToPercentString(avgDistance, 26.5f, 1.5f);
-    }
-
-    public String distanceToPercentString(float distance, float height, float sensorHeight)
-    {
-        // when a bin is 100%
-
-        // according to tests, the bin is 26.5 cm tall
-        // and the sensor is 25cm from the bottom of the bin
-        float max = height - sensorHeight;
-        // bin is 20cm tall
-        // max is 17cm (amount of total space)
-        // distance is 10cm
-        double percent = ((max - distance) / max)*100;
-        if(percent > 1)
-            percent = 1;
-
-        return String.format("%.1f%%", percent*100);
     }
 }

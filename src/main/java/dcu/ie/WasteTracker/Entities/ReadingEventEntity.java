@@ -3,6 +3,7 @@ package dcu.ie.WasteTracker.Entities;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+// version of ReadingEntity that is structured to match a FullCalendar.js event
 public class ReadingEventEntity {
     private String title;
     private String start;
@@ -17,7 +18,6 @@ public class ReadingEventEntity {
         float percent = distanceToPercent(distance, 26.5f, 2f) * 100;
         // round percent to be a multiple of 5 to account for noise
         percent = 5*Math.round(percent/5);
-        System.out.println("rounded percent to: "+percent);
 
         this.title = String.format("%.0f%%", percent);
 
