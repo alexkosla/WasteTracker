@@ -76,4 +76,31 @@ public class UserEntity {
         return SundayPickup;
     }
 
+    public void setMondayPickup(boolean mondayPickup) {
+        MondayPickup = mondayPickup;
+    }
+
+    public void setTuesdayPickup(boolean tuesdayPickup) {
+        TuesdayPickup = tuesdayPickup;
+    }
+
+    public void setWednesdayPickup(boolean wednesdayPickup) {
+        WednesdayPickup = wednesdayPickup;
+    }
+
+    public void setThursdayPickup(boolean thursdayPickup) {
+        ThursdayPickup = thursdayPickup;
+    }
+
+    public void setFridayPickup(boolean fridayPickup) {
+        FridayPickup = fridayPickup;
+    }
+
+    public void setSaturdayPickup(boolean saturdayPickup) {
+        SaturdayPickup = saturdayPickup;
+    }
+
+    public void setSundayPickup(boolean sundayPickup) {
+        SundayPickup = sundayPickup;
+    }
 }

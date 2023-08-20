@@ -22,9 +22,9 @@ function saveStats(){
     var dd = String(currentDate.getDate()).padStart(2, '0');
     var month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = currentDate.getFullYear();
-    var hh = String(currentDate.getHours());
-    var minutes = String(currentDate.getMinutes());
-    var ss = String(currentDate.getSeconds());
+    var hh = String(currentDate.getHours()).padStart(2, '0');
+    var minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    var ss = String(currentDate.getSeconds()).padStart(2, '0');
     // format into java-readable LocalDateTime
     var dateTime = yyyy + "-" + month + "-" + dd + "T" + hh + ":" + minutes + ":" + ss;
 
@@ -40,33 +40,10 @@ function saveStats(){
         sundayPickup: toSave.SundayPickup.checked ? true : false
     }
 
-    // var currentDate = new Date();
-    // var dd = String(currentDate.getDate()).padStart(2, '0');
-    // var month = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!
-    // var yyyy = currentDate.getFullYear();
-    // var hh = String(currentDate.getHours());
-    // var minutes = String(currentDate.getMinutes());
-    // var ss = String(currentDate.getSeconds());
-    // // format into java-readable LocalDateTime
-    // var dateTime = yyyy + "-" + month + "-" + dd + "T" + hh + ":" + minutes + ":" + ss;
-
-    // toSaveDict = {
-    //     username: "Jon_Arbuckle",
-    //     timestamp: dateTime,
-    //     mondayPickup: toSave.MondayPickup.checked ? true : false,
-    //     tuesdayPickup: toSave.TuesdayPickup.checked ? true : false,
-    //     wednesdayPickup: toSave.WednesdayPickup.checked ? true : false,
-    //     thursdayPickup: toSave.ThursdayPickup.checked ? true : false,
-    //     fridayPickup: toSave.FridayPickup.checked ? true : false,
-    //     saturdayPickup: toSave.SaturdayPickup.checked ? true : false,
-    //     sundayPickup: toSave.SundayPickup.checked ? true : false
-    // }
-
     // save the dict you've added the form stats to to local storage
     request = JSON.stringify(toSaveDict);
 
     console.log(request);
-    event.preventDefault();
     fetch(url, {
         method: 'POST',
         headers: {'Content-type': 'application/json'},

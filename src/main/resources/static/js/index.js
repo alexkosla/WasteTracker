@@ -108,27 +108,6 @@ async function getDailyChanges(calendar)
     }
 }
 
-// function getDailyChangesOld(calendar)
-// {
-//     const avg_changes_url = "http://localhost:8080/readings/getDailyChanges";
-//     var changes;
-//     fetch(avg_changes_url, {
-//             method: "GET",
-//             headers: {"Content-type": "application/json"}
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             changes = data;
-//             console.log("changes are:");
-//             console.log(changes);
-//             setAvgChanges(changes, calendar);
-//         })
-//         .catch((error) => {
-//             window.alert(error);
-//         });   
-//     return changes;
-// }
-
 /**
  * Take a dict of user pickup days and display them on the calendar
  * @param {*} user 
@@ -137,14 +116,13 @@ async function getDailyChanges(calendar)
 function setPickupDays(user, calendar)
 {
     console.log("in setPickupDays");
-    debugger
     if(user.mondayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [1]})}
     if(user.tuesdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [2]})}
     if(user.wednesdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [3]})}
     if(user.thursdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [4]})}
     if(user.fridayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [5]})}
     if(user.saturdayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [6]})}
-    if(user.sundayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [7]})}
+    if(user.sundayPickup) {calendar.addEvent({title: 'Waste Pickup Day', daysOfWeek: [0]})}
 }
 
 /**
@@ -202,7 +180,6 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
     {
         console.log("last reading is today, gonna check for pickup alert")
         readingIsUpToDate = true;
-        debugger
     }
     
     // 2. figure out what the next pickup day is
@@ -236,7 +213,6 @@ function setPickupAlert(average_changes, percents, schedule, calendar)
             currDayInt += dayCount;
             // check for the next pickup day AFTER tomorrow
             var nextDayInt = (currDayInt + 2) % 7;
-            debugger
     
             // if the next day is a pickup day
             if(schedule[pickupDayDecoder[nextDayInt]])

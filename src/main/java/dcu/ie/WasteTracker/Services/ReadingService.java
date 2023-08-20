@@ -161,13 +161,13 @@ public class ReadingService {
         }
 
         // NEEDS TO DIVIDE BY NUMBER OF MONDAYS/TUESDAY/ETC. NOT BY TOTAL NUMBER OF DAYS
-        dailyAverageEntity.setMondayChange(monDelta / monCount);
-        dailyAverageEntity.setTuesdayChange(tuesDelta / tuesCount);
-        dailyAverageEntity.setWednesdayChange(wedDelta / wedCount);
-        dailyAverageEntity.setThursdayChange(thursDelta / thursCount);
-        dailyAverageEntity.setFridayChange(friDelta / friCount);
-        dailyAverageEntity.setSaturdayChange(satDelta / satCount);
-        dailyAverageEntity.setSundayChange(sunDelta / sunCount);
+        dailyAverageEntity.setMondayChange(Math.round(monDelta / monCount));
+        dailyAverageEntity.setTuesdayChange(Math.round(tuesDelta / tuesCount));
+        dailyAverageEntity.setWednesdayChange(Math.round(wedDelta / wedCount));
+        dailyAverageEntity.setThursdayChange(Math.round(thursDelta / thursCount));
+        dailyAverageEntity.setFridayChange(Math.round(friDelta / friCount));
+        dailyAverageEntity.setSaturdayChange(Math.round(satDelta / satCount));
+        dailyAverageEntity.setSundayChange(Math.round(sunDelta / sunCount));
 
         return dailyAverageEntity;
     }
