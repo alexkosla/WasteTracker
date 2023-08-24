@@ -11,4 +11,6 @@ To run the application, I recommend opening the project up using the pom.xml in 
 
 I've included comments at the start of functions and entity/model classes that give a brief overview of how they work, along with a some more detailed comments in some of the more complex functions that might be harder to follow.
 
+For notes on how I constructed the smart bin, along with notes on hardware testing, see `Trash project hardware Notes.pdf`.
+
 
